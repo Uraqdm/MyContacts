@@ -10,14 +10,18 @@ namespace MyContacts.Models
         public Guid Id { get; set; }
 
         [Required]
+        [Display(Name = "Имя")]
         public string Name { get; set; }
 
+        [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
 
         [Required]
+        [Display(Name = "Фамилия")]
         public string LastName { get; set; }
 
         [Required]
-        public List<Phone> PhoneNumbers { get; set; }
+        [Display(Name = "Номер телефона")]
+        public Phone PhoneNumber { get; set; }
     }
 }
