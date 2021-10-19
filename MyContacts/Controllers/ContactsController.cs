@@ -60,7 +60,7 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid contactId, [Bind("Id, Name, MiddleName, LastName, PhoneNumbers")] Contact contact)
+        public async Task<IActionResult> Edit(Guid contactId, [Bind("Id, Name, MiddleName, LastName, PhoneNumber")] Contact contact)
         {
             if(contactId != contact.Id)
             {

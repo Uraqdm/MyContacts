@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.MiddleName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumbers)
+                @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th></th>
         </tr>
@@ -38,15 +38,11 @@
                     @Html.DisplayFor(modelItem => item.MiddleName)
                 </td>
                 <td>
-                    @foreach (var number in item.PhoneNumbers)
-                    {
-                        @Html.DisplayFor(modelItem => number.PhoneNumber)
-                    }
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Call" asp-route-id="@item.Id">Call</a>
                 </td>
             </tr>
         }
