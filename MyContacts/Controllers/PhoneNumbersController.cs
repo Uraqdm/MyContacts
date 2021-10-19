@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MyContacts.Controllers
 {
-    public class PhonesController : Controller
+    public class PhoneNumbersController : Controller
     {
         private readonly Context _context;
 
-        public PhonesController(Context context)
+        public PhoneNumbersController(Context context)
         {
             _context = context;
         }
