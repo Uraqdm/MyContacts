@@ -20,6 +20,8 @@ namespace MyContacts.Models
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }
 
+        public Guid PhoneNumberId { get; set; }
+
         [Required]
         [Display(Name = "Номер телефона")]
         public Phone PhoneNumber { get; set; }
