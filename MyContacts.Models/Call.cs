@@ -6,7 +6,7 @@ namespace MyContacts.Models
     public class Call
     {
         [Required]
-        public Guid MyProperty { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public Phone To { get; set; }
