@@ -9,9 +9,11 @@ namespace MyContacts.Models
         public Guid Id { get; set; }
 
         [Required]
-        public Phone To { get; set; }
+        [Display(Name = "Номер телефона")]
+        public PhoneNumber To { get; set; }
 
         [Required]
+        [Display(Name = "Дата")]
         public DateTime Date { get; set; }
     }
 }

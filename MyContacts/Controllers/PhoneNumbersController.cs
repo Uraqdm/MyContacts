@@ -22,7 +22,7 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddNewNumber([Bind("Id, PhoneNumber")] Phone phone)
+        public async Task<IActionResult> AddNewNumber([Bind("Id, PhoneNumber")] PhoneNumber phone)
         {
             if (ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid phoneId, [Bind("Id, PhoneNumber")] Phone phoneNum)
+        public async Task<IActionResult> Edit(Guid phoneId, [Bind("Id, PhoneNumber")] PhoneNumber phoneNum)
         {
             if (phoneId != phoneNum.Id)
             {
@@ -78,6 +78,26 @@ namespace MyContacts.Controllers
             }
 
             _context.PhoneNumbers.Remove(phoneNum);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Call(PhoneNumber phoneNum)
+        {
+            if (phoneNum == null)
+            {
+                return NotFound();
+            }
+            var call = new Call
+            {
+                Date = DateTime.Now,
+                To = phoneNum
+            };
+
+            await _context.Calls.AddAsync(call);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

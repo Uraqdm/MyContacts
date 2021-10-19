@@ -24,6 +24,6 @@ namespace MyContacts.Models
 
         [Required]
         [Display(Name = "Номер телефона")]
-        public Phone PhoneNumber { get; set; }
+        public PhoneNumber PhoneNumber { get; set; }
     }
 }

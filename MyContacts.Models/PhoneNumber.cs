@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyContacts.Models
 {
-    public class Phone
+    public class PhoneNumber
     {
         [Required]
         public Guid Id { get; set; }

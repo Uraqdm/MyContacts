@@ -12,6 +12,6 @@ namespace MyContacts.Models
         [Required]
         public string Name { get; set; }
 
-        public List<Phone> Members { get; set; }
+        public List<PhoneNumber> Members { get; set; }
     }
 }
