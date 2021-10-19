@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyContacts.DatabaseLayer;
+using System;
 
 namespace MyContacts
 {
@@ -18,9 +21,13 @@ namespace MyContacts
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            services.AddControllersWithViews();
+
+            services.AddDbContext<Context>(opts => opts.UseSqlServer(Configuration.GetConnectionString("default")));
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -39,6 +46,8 @@ namespace MyContacts
             {
                 endpoints.MapRazorPages();
             });
+
+            serviceProvider.GetService<Context>()?.Database.EnsureCreated();
         }
     }
 }
