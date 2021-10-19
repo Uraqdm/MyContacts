@@ -10,5 +10,8 @@ namespace MyContacts.Models
 
         [Required]
         public Phone To { get; set; }
+
+        [Required]
+        public DateTime Date { get; set; }
     }
 }
