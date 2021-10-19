@@ -34,9 +34,9 @@ namespace MyContacts.Controllers
             return View(phone);
         }
 
-        public async Task<IActionResult> Edit(Guid phoneId)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var phoneNum = await _context.PhoneNumbers.FindAsync(phoneId);
+            var phoneNum = await _context.PhoneNumbers.FindAsync(id);
 
             if (phoneNum == null)
             {
@@ -48,7 +48,7 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid phoneId, [Bind("Id, PhoneNumber")] Contact phoneNum)
+        public async Task<IActionResult> Edit(Guid phoneId, [Bind("Id, PhoneNumber")] Phone phoneNum)
         {
             if (phoneId != phoneNum.Id)
             {
@@ -68,9 +68,9 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(Guid phoneId)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var phoneNum = await _context.PhoneNumbers.FindAsync(phoneId);
+            var phoneNum = await _context.PhoneNumbers.FindAsync(id);
 
             if (phoneNum == null)
             {

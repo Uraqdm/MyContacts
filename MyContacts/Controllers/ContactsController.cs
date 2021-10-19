@@ -18,9 +18,9 @@ namespace MyContacts.Controllers
 
         public async Task<IActionResult> Index() => View(await _context.Contacts.ToListAsync());
 
-        public async Task<IActionResult> Details(Guid contactId)
+        public async Task<IActionResult> Details(Guid id)
         {
-            var contact = await _context.Contacts.FindAsync(contactId);
+            var contact = await _context.Contacts.FindAsync(id);
 
             if (contact == null)
             {
@@ -46,9 +46,9 @@ namespace MyContacts.Controllers
             return View(contact);
         }
 
-        public async Task<IActionResult> Edit(Guid contactId)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var contact = await _context.Contacts.FindAsync(contactId);
+            var contact = await _context.Contacts.FindAsync(id);
 
             if(contact == null)
             {
@@ -80,9 +80,9 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteContact(Guid contactId)
+        public async Task<IActionResult> DeleteContact(Guid id)
         {
-            var contact = await _context.Contacts.FindAsync(contactId);
+            var contact = await _context.Contacts.FindAsync(id);
 
             if(contact == null)
             {
