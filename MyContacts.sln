@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContacts", "MyContacts\MyContacts.csproj", "{703D7D8D-6E18-49A8-B9CE-1C3CB5F519B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyContacts", "MyContacts\MyContacts.csproj", "{703D7D8D-6E18-49A8-B9CE-1C3CB5F519B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContacts.Models", "MyContacts.Models\MyContacts.Models.csproj", "{3723E6BA-1B5F-4040-A794-408461F41B1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyContacts.Models", "MyContacts.Models\MyContacts.Models.csproj", "{3723E6BA-1B5F-4040-A794-408461F41B1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContacts.DatabaseLayer", "MyContacts.DatabaseLayer\MyContacts.DatabaseLayer.csproj", "{A9D167F4-347D-4B78-89DC-17B6FFE92869}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3723E6BA-1B5F-4040-A794-408461F41B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3723E6BA-1B5F-4040-A794-408461F41B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3723E6BA-1B5F-4040-A794-408461F41B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9D167F4-347D-4B78-89DC-17B6FFE92869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9D167F4-347D-4B78-89DC-17B6FFE92869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9D167F4-347D-4B78-89DC-17B6FFE92869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9D167F4-347D-4B78-89DC-17B6FFE92869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
