@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MyContacts.Models.Phone>
+
+
+<h1>All phone numbers</h1>
+
+<p>
+    <a asp-action="AddNewNumber">Add new</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    <a asp-action="Call" asp-route-id="@item.Id">Call</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
