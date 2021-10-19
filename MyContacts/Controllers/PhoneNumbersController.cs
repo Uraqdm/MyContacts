@@ -68,7 +68,7 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteContact(Guid phoneId)
+        public async Task<IActionResult> Delete(Guid phoneId)
         {
             var phoneNum = await _context.PhoneNumbers.FindAsync(phoneId);
 
