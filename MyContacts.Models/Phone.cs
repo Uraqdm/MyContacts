@@ -13,5 +13,7 @@ namespace MyContacts.Models
         [Phone]
         public string PhoneNumber { get; set; }
 
+        public Contact Owner { get; set; }
+
     }
 }
