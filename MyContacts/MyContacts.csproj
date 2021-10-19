@@ -13,4 +13,8 @@
     <ProjectReference Include="..\MyContacts.DatabaseLayer\MyContacts.DatabaseLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
