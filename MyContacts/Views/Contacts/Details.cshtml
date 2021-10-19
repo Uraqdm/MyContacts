@@ -33,7 +33,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="DeleteContact" asp-route-id="@Model.Id">Delete</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <form asp-action="DeleteContact">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>
