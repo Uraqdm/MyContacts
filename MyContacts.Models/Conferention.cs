@@ -9,6 +9,9 @@ namespace MyContacts.Models
         [Required]
         public Guid Id { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
         public List<Phone> Members { get; set; }
     }
 }
