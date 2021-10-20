@@ -2,10 +2,11 @@
 
 namespace MyContacts.ViewModels
 {
-    public class CallViewModel
+    public class PhoneNUmberViewModel
     {
         [Required]
         [Phone]
+        [Display(Name = "Номер телефона")]
         public string PhoneNum { get; set; }
     }
 }
