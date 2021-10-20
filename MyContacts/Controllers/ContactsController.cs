@@ -41,9 +41,9 @@ namespace MyContacts.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateContact(ContactViewModel contactVM)
         {
-            var phoneNum = await _context.PhoneNumbers.Where(p => p.PhoneNum == contactVM.PhoneNum).FirstOrDefaultAsync();
-          
-            if (ModelState.IsValid && phoneNum != null && !_context.Contacts.Where(c => c.PhoneNumberId == phoneNum.Id).Any())
+            var phoneNum = await FindPhoneAsync(contactVM.PhoneNum);
+
+            if (ModelState.IsValid && phoneNum != null && !IsPhoneNumUses(phoneNum.Id))
             {   
                 var contact = contactVM.Contact;
                 contact.PhoneNumberId = phoneNum.Id;
@@ -59,33 +59,38 @@ namespace MyContacts.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var contact = await _context.Contacts.FindAsync(id);
+            var phoneNum = await _context.PhoneNumbers.FindAsync(contact.PhoneNumberId);
 
-            if(contact == null)
+            if (contact == null)
             {
                 return NotFound();
             }
 
-            return View(contact);
+            return View(new ContactViewModel { Contact = contact, PhoneNum = contact.PhoneNumber.PhoneNum });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid contactId, [Bind("Id, Name, MiddleName, LastName, PhoneNumber")] Contact contact)
+        public async Task<IActionResult> Edit(Guid id, ContactViewModel contactVM)
         {
-            if(contactId != contact.Id)
+            var phone = await FindPhoneAsync(contactVM.PhoneNum);
+
+            if(id != contactVM.Contact.Id && phone == null)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
+                var contact = contactVM.Contact;
+                contact.PhoneNumberId = phone.Id;
                 _context.Update(contact);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(contact);
+            return View(contactVM);
         }
 
         [HttpPost]
@@ -103,6 +108,18 @@ namespace MyContacts.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<PhoneNumber> FindPhoneAsync(string phoneNum)
+        {
+            var phone = await _context.PhoneNumbers.Where(p => p.PhoneNum == phoneNum).FirstOrDefaultAsync();
+
+            return phone;
+        }
+
+        private bool IsPhoneNumUses(Guid id)
+        {
+            return _context.Contacts.Where(c => c.PhoneNumberId == id).Any();
         }
     }
 }
