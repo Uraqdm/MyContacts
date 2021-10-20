@@ -18,7 +18,17 @@ namespace MyContacts.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index() => View(await _context.Calls.ToListAsync());
+        public async Task<IActionResult> Index()
+        {
+            var calls = await _context.Calls.ToListAsync();
+
+            foreach (var item in calls)
+            {
+                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneNumberId);
+            }
+
+            return View(calls);
+        }
 
         public async Task<IActionResult> Create(Guid id = default)
         {
@@ -32,7 +42,6 @@ namespace MyContacts.Controllers
             return View();
         }
         
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CallViewModel callVM)
@@ -43,7 +52,7 @@ namespace MyContacts.Controllers
                 var call = new Call
                 {
                     Date = DateTime.Now,
-                    To = phone
+                    PhoneNumber = phone
                 };
 
                 await _context.Calls.AddAsync(call);
@@ -53,6 +62,35 @@ namespace MyContacts.Controllers
             }
 
             return View(callVM);
+        }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var call = await _context.Calls.FindAsync(id);
+
+            if (call == null)
+            {
+                return NotFound();
+            }
+
+            return View(call);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var call = await _context.Calls.FindAsync(id);
+
+            if (call == null)
+            {
+                return NotFound();
+            }
+
+            _context.Calls.Remove(call);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
