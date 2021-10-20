@@ -16,7 +16,7 @@ namespace MyContacts.DatabaseLayer
 
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
 
-        public DbSet<ConferentionsPhones> ConferentionsPhones { get; set; }
+        public DbSet<ConferentionMember> ConferentionsMembers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

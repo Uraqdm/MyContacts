@@ -2,7 +2,7 @@
 
 namespace MyContacts.Models
 {
-    public class ConferentionsPhones
+    public class ConferentionMember
     {
         public Guid Id { get; set; }
 
