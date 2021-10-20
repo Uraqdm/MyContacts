@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyContacts.Models
@@ -10,8 +9,11 @@ namespace MyContacts.Models
         public Guid Id { get; set; }
 
         [Required]
+        [Display(Name = "Название")]
         public string Name { get; set; }
 
-        public List<PhoneNumber> Members { get; set; }
+        [Required]
+        [Display(Name = "Дата проведения")]
+        public DateTime PlaningDate { get; set; }
     }
 }
