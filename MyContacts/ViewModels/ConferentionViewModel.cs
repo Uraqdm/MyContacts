@@ -1,5 +1,6 @@
 ﻿using MyContacts.Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyContacts.ViewModels
 {
@@ -7,6 +8,7 @@ namespace MyContacts.ViewModels
     {
         public Conferention Conferention { get; set; }
 
+        [Display(Name = "Участники")]
         public IEnumerable<string> MembersPhoneNumbers { get; set; }
     }
 }
