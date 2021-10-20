@@ -21,9 +21,6 @@ namespace MyContacts.Models
         public string LastName { get; set; }
 
         public Guid PhoneNumberId { get; set; }
-
-        [Required]
-        [Display(Name = "Номер телефона")]
         public PhoneNumber PhoneNumber { get; set; }
     }
 }
