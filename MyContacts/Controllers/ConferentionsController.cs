@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
 using MyContacts.Models;
+using MyContacts.ViewModels;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyContacts.Controllers
@@ -94,6 +96,36 @@ namespace MyContacts.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var conferention = await _context.Conferentions.FindAsync(id);
+
+            if(conferention == null)
+            {
+                return NotFound();
+            }
+
+            return View(await ToViewModel(conferention));
+        }
+
+        private async Task<ConferentionViewModel> ToViewModel(Conferention conferention)
+        {
+            var list = await _context.ConferentionsPhones
+                .Where(x => x.ConferentionId == conferention.Id)
+                .ToListAsync();
+
+            foreach (var item in list)
+            {
+                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneId);
+            }
+
+            return new ConferentionViewModel
+            {
+                Conferention = conferention,
+                MembersPhoneNumbers = list.Select(x => x.PhoneNumber.PhoneNum)
+            };
         }
     }
 }
