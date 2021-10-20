@@ -66,9 +66,21 @@ namespace MyContacts.Controllers
             return View(phoneNum);
         }
 
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var phone = await _context.PhoneNumbers.FindAsync(id);
+
+            if(phone == null)
+            {
+                return NotFound();
+            }
+
+            return View(phone);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var phoneNum = await _context.PhoneNumbers.FindAsync(id);
 
