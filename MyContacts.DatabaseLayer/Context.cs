@@ -24,12 +24,12 @@ namespace MyContacts.DatabaseLayer
             modelBuilder.Entity<PhoneNumber>().HasData(new PhoneNumber
             {
                 Id = new Guid("e7aaa2b2-207d-4626-a74d-a8af8d41b239"),
-                PhoneNumber = "88005553535"
+                PhoneNum = "88005553535"
             },
             new PhoneNumber
             {
                 Id = new Guid("6d8dae9f-de21-4dda-a952-dcc0103351d1"),
-                PhoneNumber = "89054122233"
+                PhoneNum = "89054122233"
             });
 
             //Creating contact
