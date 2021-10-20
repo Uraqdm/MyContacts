@@ -33,7 +33,7 @@ namespace MyContacts.Controllers
             return View(contact);
         }
 
-        public async Task<IActionResult> CreateContact()
+        public IActionResult CreateContact()
         {
             return View();
         }
