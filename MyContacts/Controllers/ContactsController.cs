@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
 using MyContacts.Models;
@@ -40,7 +39,7 @@ namespace MyContacts.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateContact( ContactViewModel contactVM)
+        public async Task<IActionResult> CreateContact(ContactViewModel contactVM)
         {
             var phoneNum = await _context.PhoneNumbers.Where(p => p.PhoneNum == contactVM.PhoneNum).FirstOrDefaultAsync();
           
@@ -101,26 +100,6 @@ namespace MyContacts.Controllers
             }
 
             _context.Contacts.Remove(contact);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Call(PhoneNumber phoneNum)
-        {
-            if(phoneNum == null)
-            {
-                return NotFound();
-            }
-            var call = new Call
-            {
-                Date = DateTime.Now,
-                To = phoneNum
-            };
-
-            await _context.Calls.AddAsync(call);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
