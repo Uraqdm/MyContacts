@@ -68,7 +68,6 @@ namespace MyContacts.Controllers
             return View(conferention);
         }
 
-
         public async Task<IActionResult> Delete(Guid id)
         {
             var conferention = await _context.Conferentions.FindAsync(id);
@@ -112,7 +111,7 @@ namespace MyContacts.Controllers
 
         private async Task<ConferentionViewModel> ToViewModel(Conferention conferention)
         {
-            var list = await _context.ConferentionsPhones
+            var list = await _context.ConferentionsMembers
                 .Where(x => x.ConferentionId == conferention.Id)
                 .ToListAsync();
 
@@ -127,5 +126,6 @@ namespace MyContacts.Controllers
                 MembersPhoneNumbers = list.Select(x => x.PhoneNumber.PhoneNum)
             };
         }
+
     }
 }
