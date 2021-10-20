@@ -48,7 +48,7 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid phoneId, [Bind("Id, PhoneNumber")] PhoneNumber phoneNum)
+        public async Task<IActionResult> Edit(Guid phoneId, PhoneNumber phoneNum)
         {
             if (phoneId != phoneNum.Id)
             {
