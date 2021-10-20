@@ -36,7 +36,7 @@ namespace MyContacts.Controllers
             {
                 //Если передали id, значит номер телефона точно существует, т.к. передать могли только с PhoneNumbers или Contacts контроллеров
                 var phone = await _context.PhoneNumbers.FindAsync(id);
-                var callVM = new PhoneNUmberViewModel { PhoneNum = phone.PhoneNum };
+                var callVM = new PhoneNumberViewModel { PhoneNum = phone.PhoneNum };
                 return View(callVM);
             }
             return View();
@@ -44,7 +44,7 @@ namespace MyContacts.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PhoneNUmberViewModel callVM)
+        public async Task<IActionResult> Create(PhoneNumberViewModel callVM)
         {
             var phone = await _context.PhoneNumbers.Where(p => p.PhoneNum == callVM.PhoneNum).FirstOrDefaultAsync();
             if (ModelState.IsValid && phone != null)

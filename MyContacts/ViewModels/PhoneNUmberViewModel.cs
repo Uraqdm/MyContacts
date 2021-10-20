@@ -2,7 +2,7 @@
 
 namespace MyContacts.ViewModels
 {
-    public class PhoneNUmberViewModel
+    public class PhoneNumberViewModel
     {
         [Required]
         [Phone]
