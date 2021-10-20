@@ -35,10 +35,8 @@
 <div>
 
     
-    <form asp-action="Call">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Call" class="btn" /> |
-    </form>
+
+    <a asp-controller="Calls" asp-action="Create" asp-route-id="@Model.Id">Call</a> |
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <form asp-action="DeleteContact">
         <input type="hidden" asp-for="Id" />
