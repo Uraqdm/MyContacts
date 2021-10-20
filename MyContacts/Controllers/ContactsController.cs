@@ -18,7 +18,17 @@ namespace MyContacts.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index() => View(await _context.Contacts.ToListAsync());
+        public async Task<IActionResult> Index()
+        {
+            var contacts = await _context.Contacts.ToListAsync();
+
+            foreach (var item in contacts)
+            {
+                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneNumberId);
+            }
+
+            return View(contacts);
+        }
 
         public async Task<IActionResult> Details(Guid id)
         {
