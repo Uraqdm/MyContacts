@@ -43,7 +43,7 @@ namespace MyContacts.Controllers
         {
             var phoneNum = await _context.PhoneNumbers.Where(p => p.PhoneNum == contactVM.PhoneNum).FirstOrDefaultAsync();
           
-            if (ModelState.IsValid && phoneNum != null)
+            if (ModelState.IsValid && phoneNum != null && !_context.Contacts.Where(c => c.PhoneNumberId == phoneNum.Id).Any())
             {   
                 var contact = contactVM.Contact;
                 contact.PhoneNumberId = phoneNum.Id;
