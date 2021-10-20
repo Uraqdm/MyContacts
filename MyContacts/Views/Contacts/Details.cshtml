@@ -28,16 +28,21 @@
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber.PhoneNumber)
+            @Html.DisplayFor(model => model.PhoneNumber.PhoneNum)
         </dd>
     </dl>
 </div>
 <div>
+
     
+    <form asp-action="Call">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Call" class="btn" /> |
+    </form>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <form asp-action="DeleteContact">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
     </form>
+    <a asp-action="Index">Back to List</a>
 </div>

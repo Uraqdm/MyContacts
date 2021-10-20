@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
 using MyContacts.Models;
+using MyContacts.ViewModels;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyContacts.Controllers
@@ -30,20 +33,28 @@ namespace MyContacts.Controllers
             return View(contact);
         }
 
-        public IActionResult CreateContact() => View();
+        public async Task<IActionResult> CreateContact()
+        {
+            return View();
+        }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateContact([Bind("Id, Name, MiddleName, LastName, PhoneNumbers")] Contact contact)
+        public async Task<IActionResult> CreateContact( ContactViewModel contactVM)
         {
-            if (ModelState.IsValid)
-            {
+            var phoneNum = await _context.PhoneNumbers.Where(p => p.PhoneNum == contactVM.PhoneNum).FirstOrDefaultAsync();
+          
+            if (ModelState.IsValid && phoneNum != null)
+            {   
+                var contact = contactVM.Contact;
+                contact.PhoneNumberId = phoneNum.Id;
+
                 await _context.Contacts.AddAsync(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(contact);
+            return View(contactVM);
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -90,6 +101,26 @@ namespace MyContacts.Controllers
             }
 
             _context.Contacts.Remove(contact);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Call(PhoneNumber phoneNum)
+        {
+            if(phoneNum == null)
+            {
+                return NotFound();
+            }
+            var call = new Call
+            {
+                Date = DateTime.Now,
+                To = phoneNum
+            };
+
+            await _context.Calls.AddAsync(call);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
