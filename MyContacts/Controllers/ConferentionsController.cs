@@ -65,5 +65,35 @@ namespace MyContacts.Controllers
 
             return View(conferention);
         }
+
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var conferention = await _context.Conferentions.FindAsync(id);
+
+            if (conferention == null)
+            {
+                return NotFound();
+            }
+
+            return View(conferention);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var conferention = await _context.Conferentions.FindAsync(id);
+
+            if (conferention == null)
+            {
+                return NotFound();
+            }
+
+            _context.Conferentions.Remove(conferention);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
