@@ -22,7 +22,7 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddNewNumber([Bind("Id, PhoneNumber")] PhoneNumber phone)
+        public async Task<IActionResult> AddNewNumber(PhoneNumber phone)
         {
             if (ModelState.IsValid)
             {
