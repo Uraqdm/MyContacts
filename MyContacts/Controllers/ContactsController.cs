@@ -48,13 +48,12 @@ namespace MyContacts.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateContact(ContactViewModel contactVM)
+        public async Task<IActionResult> CreateContact(Contact contact)
         {
-            var phoneNum = await FindPhoneAsync(contactVM.PhoneNum);
+            var phoneNum = await FindPhoneAsync(contact.PhoneNumber.PhoneNum);
 
             if (ModelState.IsValid && phoneNum != null && !IsPhoneNumUses(phoneNum.Id))
             {   
-                var contact = contactVM.Contact;
                 contact.PhoneNumber = phoneNum;
                 contact.Owner = await _context.PhoneNumbers.FindAsync(CurrentPhoneUserService.CurrentPhoneUser.Id);
 
@@ -63,7 +62,7 @@ namespace MyContacts.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(contactVM);
+            return View(contact);
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -75,23 +74,22 @@ namespace MyContacts.Controllers
                 return NotFound();
             }
 
-            return View(new ContactViewModel { Contact = contact, PhoneNum = contact.PhoneNumber.PhoneNum });
+            return View(contact);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, ContactViewModel contactVM)
+        public async Task<IActionResult> Edit(Guid id, Contact contact)
         {
-            var phone = await FindPhoneAsync(contactVM.PhoneNum);
+            var phone = await FindPhoneAsync(contact.PhoneNumber.PhoneNum);
 
-            if(id != contactVM.Contact.Id && phone == null)
+            if(id != contact.Id && phone == null)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid && !IsPhoneNumUses(phone.Id))
             {
-                var contact = contactVM.Contact;
                 contact.PhoneNumber = phone;
                 _context.Update(contact);
                 await _context.SaveChangesAsync();
@@ -99,7 +97,7 @@ namespace MyContacts.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(contactVM);
+            return View(contact);
         }
 
         [HttpPost]
