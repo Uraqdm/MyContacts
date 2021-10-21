@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
+using MyContacts.Models;
 using MyContacts.Services;
-using MyContacts.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +21,7 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Enter(PhoneNumberViewModel phoneNumber)
+        public async Task<IActionResult> Enter(PhoneNumber phoneNumber)
         {
             if (ModelState.IsValid)
             {
