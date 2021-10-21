@@ -36,9 +36,9 @@ Warning! This application uses only MS SQL.
 
 ## Enter in system
 
-Then you should use one of following numbers to "login":
+Then you should use one of the following numbers to "login":
 
 - 88005553535
 - 89054122233
 
-Done! You ready to use this app!
+Done! You are ready to use this app!
