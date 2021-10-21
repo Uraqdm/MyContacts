@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
+using MyContacts.Services;
 using MyContacts.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +31,8 @@ namespace MyContacts.Controllers
                 {
                     return View(phoneNumber);
                 }
+
+                CurrentPhoneUserService.CurrentPhoneUser = phone;
 
                 return RedirectToAction(controllerName: "Contacts", actionName: "Index");
             }
