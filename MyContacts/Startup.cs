@@ -48,7 +48,7 @@ namespace MyContacts
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            serviceProvider.GetService<Context>()?.Database.EnsureDeleted();
+
             serviceProvider.GetService<Context>()?.Database.EnsureCreated();
         }
     }

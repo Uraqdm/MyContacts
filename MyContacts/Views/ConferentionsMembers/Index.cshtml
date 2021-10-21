@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MyContacts.Models.ConferentionMember>
+
+
+<h1>Members</h1>
+
+<p>
+    <a asp-action="AddMember">Add new</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber.PhoneNum)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber.PhoneNum)
+                </td>
+                <td>
+                    <a asp-action="RemoveMember" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

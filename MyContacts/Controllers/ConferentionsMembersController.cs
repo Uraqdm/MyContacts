@@ -13,47 +13,85 @@ namespace MyContacts.Controllers
     {
         private readonly Context _context;
 
+        private static Conferention conferention;
+
         public ConferentionsMembersController(Context context)
         {
             _context = context;
         }
 
-        public IActionResult AddMember(Guid id) => View(new MemberViewModel { ConferentionId = id });
+        public async Task<IActionResult> Index(Guid id)
+        {
+            var members = await _context.ConferentionsMembers.Where(x => x.ConferentionId == id).ToListAsync();
+
+            foreach (var item in members)
+            {
+                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneId);
+            }
+
+            conferention = await _context.Conferentions.FindAsync(id);
+
+            return View(members);
+        }
+
+        public IActionResult AddMember() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMember(Guid id, MemberViewModel memberVM)
+        public async Task<IActionResult> AddMember(MemberViewModel memberVM)
         {
             if (ModelState.IsValid)
             {
                 var phone = await _context.PhoneNumbers.Where(p => p.PhoneNum == memberVM.PhoneNum).FirstOrDefaultAsync();
 
-                if (phone == null)
+                if(phone == null || _context.ConferentionsMembers.Where(m => m.PhoneId == phone.Id && m.ConferentionId == memberVM.ConferentionId).Any())
                 {
-                    return NotFound();
+                    return View(memberVM);
                 }
 
                 var record = new ConferentionMember
                 {
-                    ConferentionId = id,
+                    ConferentionId = conferention.Id,
                     PhoneId = phone.Id
                 };
                 await _context.ConferentionsMembers.AddAsync(record);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(actionName: "Details", controllerName: "Conferentions", new { id = id });
+                return RedirectToAction(actionName: "Details", controllerName: "Conferentions", new { id = conferention.Id });
             }
 
             return View(memberVM);
         }
 
-        public IActionResult RemoveMember(string phoneNum) => View(phoneNum);
+        public async Task<IActionResult> RemoveMember(Guid id)
+        {
+            var member = await _context.ConferentionsMembers.FindAsync(id);
+
+            if(member == null)
+            {
+                return NotFound();
+            }
+
+            member.PhoneNumber = await _context.PhoneNumbers.FindAsync(member.PhoneId);
+
+            return View(member);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveMemberSubmit(string phoneNum)
+        public async Task<IActionResult> RemoveMemberSubmit(Guid id)
         {
-            throw new Exception();
+            var member = await _context.ConferentionsMembers.FindAsync(id);
+
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+            _context.ConferentionsMembers.Remove(member);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index), new { id = member.ConferentionId });
         }
     }
 }
