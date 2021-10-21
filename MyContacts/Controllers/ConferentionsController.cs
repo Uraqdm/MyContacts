@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
 using MyContacts.Models;
+using MyContacts.Services;
 using MyContacts.ViewModels;
 using System;
 using System.Linq;
@@ -18,7 +19,15 @@ namespace MyContacts.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index() => View(await _context.Conferentions.ToListAsync());
+        public async Task<IActionResult> Index()
+        {
+            var conferentions = await _context.ConferentionsMembers
+                .Where(m => m.PhoneNumber.Id == CurrentPhoneUserService.CurrentPhoneUser.Id)
+                .Select(m => m.Conferention)
+                .ToListAsync();
+
+            return View(conferentions);
+        }
 
         public IActionResult Create() => View();
 
@@ -29,6 +38,7 @@ namespace MyContacts.Controllers
             if (ModelState.IsValid)
             {
                 await _context.Conferentions.AddAsync(conferention);
+                await _context.ConferentionsMembers.AddAsync(new ConferentionMember { Conferention = conferention, PhoneNumber = CurrentPhoneUserService.CurrentPhoneUser });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -112,12 +122,12 @@ namespace MyContacts.Controllers
         private async Task<ConferentionViewModel> ToViewModel(Conferention conferention)
         {
             var list = await _context.ConferentionsMembers
-                .Where(x => x.ConferentionId == conferention.Id)
+                .Where(x => x.Conferention.Id == conferention.Id)
                 .ToListAsync();
 
             foreach (var item in list)
             {
-                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneId);
+                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneNumber.Id);
             }
 
             return new ConferentionViewModel
