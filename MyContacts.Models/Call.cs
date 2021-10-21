@@ -9,11 +9,11 @@ namespace MyContacts.Models
         public Guid Id { get; set; }
 
         [Required]
-        [Display(Name = "Кому")]
+        [Display(Name = "От")]
         public PhoneNumber From { get; set; }
 
         [Required]
-        [Display(Name = "От")]
+        [Display(Name = "Кому")]
         public PhoneNumber To { get; set; }
 
         [Required]
