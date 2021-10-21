@@ -13,7 +13,7 @@ namespace MyContacts.Controllers
     {
         private readonly Context _context;
 
-        private static Conferention conferention;
+        private static Guid conferentionId;
 
         public ConferentionsMembersController(Context context)
         {
@@ -29,7 +29,7 @@ namespace MyContacts.Controllers
                 item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneId);
             }
 
-            conferention = await _context.Conferentions.FindAsync(id);
+            conferentionId = id;
 
             return View(members);
         }
@@ -51,13 +51,13 @@ namespace MyContacts.Controllers
 
                 var record = new ConferentionMember
                 {
-                    ConferentionId = conferention.Id,
+                    ConferentionId = conferentionId,
                     PhoneId = phone.Id
                 };
                 await _context.ConferentionsMembers.AddAsync(record);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(actionName: "Details", controllerName: "Conferentions", new { id = conferention.Id });
+                return RedirectToAction(actionName: "Details", controllerName: "Conferentions", new { id = conferentionId });
             }
 
             return View(memberVM);
