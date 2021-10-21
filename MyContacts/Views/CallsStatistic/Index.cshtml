@@ -1,0 +1,35 @@
+﻿@model MyContacts.ViewModels.StatisticViewModel
+
+
+<h1>Statistic for @Model.PhoneNumber</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeginDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeginDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CallsCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CallsCount)
+        </dd>
+    </dl>
+</div>
+<a asp-controller="PhoneNumbers" asp-action="Index">Back to phone numbers list</a>

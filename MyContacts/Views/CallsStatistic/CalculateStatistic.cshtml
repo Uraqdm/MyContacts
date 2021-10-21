@@ -1,0 +1,34 @@
+﻿@model MyContacts.ViewModels.StatisticViewModel
+
+<h1>Calculate statistic</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CalculateStatistic">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PhoneNumber" />
+            <div class="form-group">
+                <label asp-for="BeginDate" class="control-label"></label>
+                <input asp-for="BeginDate" class="form-control" />
+                <span asp-validation-for="BeginDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Calculate" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="PhoneNumbers" asp-action="Index">Back to phone numbers list</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
