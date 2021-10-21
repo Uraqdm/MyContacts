@@ -106,7 +106,7 @@ namespace MyContacts.Controllers
             var call = new Call
             {
                 Date = DateTime.Now,
-                PhoneNumber = phoneNum
+                From = phoneNum
             };
 
             await _context.Calls.AddAsync(call);

@@ -24,7 +24,7 @@ namespace MyContacts.Controllers
 
             foreach (var item in calls)
             {
-                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneNumberId);
+                item.From = await _context.PhoneNumbers.FindAsync(item.FromId);
             }
 
             return View(calls);
@@ -52,7 +52,7 @@ namespace MyContacts.Controllers
                 var call = new Call
                 {
                     Date = DateTime.Now,
-                    PhoneNumber = phone
+                    From = phone
                 };
 
                 await _context.Calls.AddAsync(call);

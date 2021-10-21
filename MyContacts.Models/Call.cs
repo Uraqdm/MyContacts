@@ -8,8 +8,11 @@ namespace MyContacts.Models
         [Required]
         public Guid Id { get; set; }
 
-        public Guid PhoneNumberId { get; set; }
-        public PhoneNumber PhoneNumber { get; set; }
+        public Guid FromId { get; set; }
+        public PhoneNumber From { get; set; }
+
+        public Guid ToId { get; set; }
+        public PhoneNumber To { get; set; }
 
         [Required]
         [Display(Name = "Дата")]

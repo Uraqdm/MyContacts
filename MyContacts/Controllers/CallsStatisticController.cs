@@ -32,7 +32,7 @@ namespace MyContacts.Controllers
             {
                 var phone = await _context.PhoneNumbers.Where(p => p.PhoneNum == statisticVM.PhoneNumber).FirstOrDefaultAsync();
                 statisticVM.CallsCount = await _context.Calls
-                    .Where(c => c.PhoneNumberId == phone.Id &&
+                    .Where(c => c.FromId == phone.Id &&
                     c.Date <= statisticVM.EndDate && 
                     c.Date >= statisticVM.BeginDate)
                     .CountAsync();
