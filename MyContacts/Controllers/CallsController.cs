@@ -65,5 +65,17 @@ namespace MyContacts.Controllers
 
             return View(call);
         }
+
+        public async Task<IActionResult> StatisticRedirection(Guid id)
+        {
+            var call = await _context.Calls.Include(c => c.To)
+                .Include(c => c.From)
+                .Where(c => c.Id == id)
+                .FirstOrDefaultAsync();
+
+            Guid redirectionId = call.From.Id != CurrentPhoneUserService.CurrentPhoneUser.Id ? call.From.Id : call.To.Id;
+
+            return RedirectToAction(actionName: "CalculateStatistic", controllerName: "CallsStatistic",  new { id = redirectionId });
+        }
     }
 }

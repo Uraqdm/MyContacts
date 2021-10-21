@@ -8,7 +8,6 @@ namespace MyContacts.Models
         [Required]
         public Guid Id { get; set; }
 
-        [Required]
         [Display(Name = "От")]
         public PhoneNumber From { get; set; }
 
@@ -16,7 +15,6 @@ namespace MyContacts.Models
         [Display(Name = "Кому")]
         public PhoneNumber To { get; set; }
 
-        [Required]
         [Display(Name = "Дата")]
         public DateTime Date { get; set; }
     }

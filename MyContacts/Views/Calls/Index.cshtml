@@ -18,6 +18,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -32,6 +33,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a asp-action="Statisticredirection" asp-route-id="@item.Id">Show statistic for this number</a>
                 </td>
             </tr>
         }

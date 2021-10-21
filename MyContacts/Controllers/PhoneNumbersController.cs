@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
 using MyContacts.Models;
+using MyContacts.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyContacts.Controllers
@@ -16,7 +17,7 @@ namespace MyContacts.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index() => View(await _context.PhoneNumbers.ToListAsync());
+        public async Task<IActionResult> Index() => View(await _context.PhoneNumbers.FindAsync(CurrentPhoneUserService.CurrentPhoneUser.Id));
 
         public IActionResult AddNewNumber() => View();
 
@@ -28,6 +29,7 @@ namespace MyContacts.Controllers
             {
                 await _context.PhoneNumbers.AddAsync(phone);
                 await _context.SaveChangesAsync();
+                CurrentPhoneUserService.CurrentPhoneUser = phone;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -89,10 +91,14 @@ namespace MyContacts.Controllers
                 return NotFound();
             }
 
+            _context.Calls.RemoveRange(_context.Calls.Where(c => c.To.Id == id || c.From.Id == id));
+            _context.ConferentionsMembers.RemoveRange(_context.ConferentionsMembers.Where(m => m.PhoneNumber.Id == id));
+            _context.Contacts.RemoveRange(_context.Contacts.Where(c => c.PhoneNumber.Id == id || c.Owner.Id == id));
             _context.PhoneNumbers.Remove(phoneNum);
+
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(controllerName: "Home", actionName: "index");
         }
 
         [HttpPost]

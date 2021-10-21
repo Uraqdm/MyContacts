@@ -1,4 +1,4 @@
-﻿@model MyContacts.ViewModels.MemberViewModel
+﻿@model MyContacts.Models.ConferentionMember
 
 <h1>Add new member</h1>
 
@@ -9,9 +9,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="PhoneNum" class="control-label"></label>
-                <input asp-for="PhoneNum" class="form-control" />
-                <span asp-validation-for="PhoneNum" class="text-danger"></span>
+                <label asp-for="PhoneNumber.PhoneNum" class="control-label"></label>
+                <input asp-for="PhoneNumber.PhoneNum" class="form-control" />
+                <span asp-validation-for="PhoneNumber.PhoneNum" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Add member" class="btn btn-primary" />

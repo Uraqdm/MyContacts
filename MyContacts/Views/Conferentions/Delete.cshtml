@@ -1,4 +1,4 @@
-﻿@model MyContacts.ViewModels.ConferentionViewModel
+﻿@model MyContacts.Models.Conferention
 
 <h1>Delete</h1>
 
@@ -6,32 +6,22 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Conferention.Name)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Conferention.Name)
+            @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MembersPhoneNumbers)
-        </dt>
-
-        <dd class="col-sm-10">
-            @foreach (var item in Model.MembersPhoneNumbers)
-            {
-                @item;
-            }
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Conferention.PlaningDate)
+            @Html.DisplayNameFor(model => model.PlaningDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Conferention.PlaningDate)
+            @Html.DisplayFor(model => model.PlaningDate)
         </dd>
     </dl>
 </div>
 <div>
     <form asp-action="DeleteConfirmed">
-        <input type="hidden" asp-for="Conferention.Id" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" />
     </form>
 </div>

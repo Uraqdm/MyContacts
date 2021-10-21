@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
+using MyContacts.Services;
 using MyContacts.ViewModels;
 using System;
 using System.Linq;
@@ -32,12 +33,13 @@ namespace MyContacts.Controllers
             {
                 var phone = await _context.PhoneNumbers.Where(p => p.PhoneNum == statisticVM.PhoneNumber).FirstOrDefaultAsync();
                 statisticVM.CallsCount = await _context.Calls
-                    .Where(c => c.From.Id == phone.Id &&
+                    .Where(c => c.From.Id == phone.Id || c.To.Id == phone.Id &&
                     c.Date <= statisticVM.EndDate && 
                     c.Date >= statisticVM.BeginDate)
+                    .Where(c => c.From.Id == CurrentPhoneUserService.CurrentPhoneUser.Id || c.To.Id == CurrentPhoneUserService.CurrentPhoneUser.Id)
                     .CountAsync();
 
-                return RedirectToAction(nameof(Index), new { beging = statisticVM.BeginDate, end = statisticVM.EndDate, phone = statisticVM.PhoneNumber, count = statisticVM.CallsCount });
+                return RedirectToAction(nameof(Index), new { begin = statisticVM.BeginDate, end = statisticVM.EndDate, phone = statisticVM.PhoneNumber, count = statisticVM.CallsCount });
             }
 
             return View(statisticVM);

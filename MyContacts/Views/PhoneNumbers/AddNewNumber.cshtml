@@ -1,26 +1,46 @@
 ﻿@model MyContacts.Models.PhoneNumber
 
-<h1>Add new phone number</h1>
+@using MyContacts
+@namespace MyContacts.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddNewNumber">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PhoneNum" class="control-label"></label>
-                <input asp-for="PhoneNum" class="form-control" />
-                <span asp-validation-for="PhoneNum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+@{
+    Layout = null;
+}
 
-<div>
-    <a asp-action="Index">Back to phone numbers</a>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MyContacts</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="text-center">
+            <h1 class="display-4">Welcome</h1>
+
+            <h4>Join us!</h4>
+
+            <hr />
+            <div class="row justify-content-md-center">
+                <div class="col-md-4">
+                    <form asp-action="AddNewNumber">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="PhoneNum" class="control-label"></label>
+                            <input asp-for="PhoneNum" class="form-control" />
+                            <span asp-validation-for="PhoneNum" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Sign up" class="btn btn-primary" /> |
+                            <a asp-action="Index" asp-controller="Home">Go back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 
 @section Scripts {

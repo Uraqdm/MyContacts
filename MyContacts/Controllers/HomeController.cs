@@ -29,7 +29,7 @@ namespace MyContacts.Controllers
 
                 if(phone == null)
                 {
-                    return View(phoneNumber);
+                    return View(viewName:nameof(Index), phoneNumber);
                 }
 
                 CurrentPhoneUserService.CurrentPhoneUser = phone;
@@ -37,7 +37,7 @@ namespace MyContacts.Controllers
                 return RedirectToAction(controllerName: "Contacts", actionName: "Index");
             }
 
-            return View(phoneNumber);
+            return View(viewName: nameof(Index),  phoneNumber);
         }
     }
 }

@@ -22,12 +22,11 @@ namespace MyContacts.Controllers
 
         public async Task<IActionResult> Index(Guid id)
         {
-            var members = await _context.ConferentionsMembers.Where(x => x.ConferentionId == id).ToListAsync();
+            var members = await _context.ConferentionsMembers
+                .Where(x => x.Conferention.Id == id)
+                .Include(x => x.PhoneNumber)
+                .ToListAsync();
 
-            foreach (var item in members)
-            {
-                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneId);
-            }
 
             conferentionId = id;
 
@@ -38,29 +37,27 @@ namespace MyContacts.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMember(MemberViewModel memberVM)
+        public async Task<IActionResult> AddMember(ConferentionMember member)
         {
             if (ModelState.IsValid)
             {
-                var phone = await _context.PhoneNumbers.Where(p => p.PhoneNum == memberVM.PhoneNum).FirstOrDefaultAsync();
+                var phone = await _context.PhoneNumbers.Where(p => p.PhoneNum == member.PhoneNumber.PhoneNum).FirstOrDefaultAsync();
 
-                if(phone == null || _context.ConferentionsMembers.Where(m => m.PhoneId == phone.Id && m.ConferentionId == memberVM.ConferentionId).Any())
+                if(phone == null || await IsAlreadyMember(conferentionId, phone.Id))
                 {
-                    return View(memberVM);
+                    return View(member);
                 }
 
-                var record = new ConferentionMember
-                {
-                    ConferentionId = conferentionId,
-                    PhoneId = phone.Id
-                };
-                await _context.ConferentionsMembers.AddAsync(record);
+                member.Conferention = await _context.Conferentions.FindAsync(conferentionId);
+                member.PhoneNumber = phone;
+                
+                await _context.ConferentionsMembers.AddAsync(member);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(actionName: "Details", controllerName: "Conferentions", new { id = conferentionId });
             }
 
-            return View(memberVM);
+            return View(member);
         }
 
         public async Task<IActionResult> RemoveMember(Guid id)
@@ -72,8 +69,6 @@ namespace MyContacts.Controllers
                 return NotFound();
             }
 
-            member.PhoneNumber = await _context.PhoneNumbers.FindAsync(member.PhoneId);
-
             return View(member);
         }
 
@@ -82,7 +77,6 @@ namespace MyContacts.Controllers
         public async Task<IActionResult> RemoveMemberSubmit(Guid id)
         {
             var member = await _context.ConferentionsMembers.FindAsync(id);
-
             if (member == null)
             {
                 return NotFound();
@@ -91,7 +85,14 @@ namespace MyContacts.Controllers
             _context.ConferentionsMembers.Remove(member);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index), new { id = member.ConferentionId });
+            return RedirectToAction(nameof(Index), new { id = conferentionId });
+        }
+
+        private async Task<bool> IsAlreadyMember(Guid conferentionId, Guid phoneId)
+        {
+            return await _context.ConferentionsMembers.Where(m => m.Conferention.Id == conferentionId && m.PhoneNumber.Id == phoneId).AnyAsync();
+
+
         }
     }
 }

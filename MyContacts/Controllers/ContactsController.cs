@@ -31,7 +31,7 @@ namespace MyContacts.Controllers
 
         public async Task<IActionResult> Details(Guid id)
         {
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _context.Contacts.Include(x => x.PhoneNumber).Where(c => c.Id == id).FirstOrDefaultAsync();
 
             if (contact == null)
             {

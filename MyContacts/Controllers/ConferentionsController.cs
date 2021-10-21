@@ -38,7 +38,12 @@ namespace MyContacts.Controllers
             if (ModelState.IsValid)
             {
                 await _context.Conferentions.AddAsync(conferention);
-                await _context.ConferentionsMembers.AddAsync(new ConferentionMember { Conferention = conferention, PhoneNumber = CurrentPhoneUserService.CurrentPhoneUser });
+                await _context.ConferentionsMembers.AddAsync(
+                    new ConferentionMember
+                    {
+                        Conferention = conferention,
+                        PhoneNumber = await _context.PhoneNumbers.FindAsync(CurrentPhoneUserService.CurrentPhoneUser.Id)
+                    });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -101,6 +106,11 @@ namespace MyContacts.Controllers
                 return NotFound();
             }
 
+            foreach (var member in await _context.ConferentionsMembers.Where(m => m.Conferention.Id == conferention.Id).ToListAsync())
+            {
+                _context.Remove(member);
+            }
+
             _context.Conferentions.Remove(conferention);
             await _context.SaveChangesAsync();
 
@@ -123,12 +133,8 @@ namespace MyContacts.Controllers
         {
             var list = await _context.ConferentionsMembers
                 .Where(x => x.Conferention.Id == conferention.Id)
+                .Include(x => x.PhoneNumber)
                 .ToListAsync();
-
-            foreach (var item in list)
-            {
-                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneNumber.Id);
-            }
 
             return new ConferentionViewModel
             {

@@ -1,36 +1,20 @@
-﻿@model IEnumerable<MyContacts.Models.PhoneNumber>
+﻿@model MyContacts.Models.PhoneNumber
 
 
-<h1>All phone numbers</h1>
+<h1>Your phone number</h1>
 
-<p>
-    <a asp-action="AddNewNumber">Add new</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNum)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNum)
-                </td>
-                <td>
-                    <div>
-                        <a asp-action="Create" asp-controller="Calls" asp-route-id="@item.Id">Call</a> |
-                        <a asp-action="CalculateStatistic" asp-controller="CallsStatistic" asp-route-id="@item.Id">Statistic</a> |
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNum)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete my number</a>
+</div>
