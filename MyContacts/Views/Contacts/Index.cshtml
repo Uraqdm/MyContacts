@@ -42,7 +42,7 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="CalculateStatistic" asp-controller="CallsStatistic" asp-route-id="@item.PhoneNumberId">Statistic</a>
+                    <a asp-action="CalculateStatistic" asp-controller="CallsStatistic" asp-route-id="@item.PhoneNumber.Id">Statistic</a>
                 </td>
             </tr>
         }

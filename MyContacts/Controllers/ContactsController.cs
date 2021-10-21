@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyContacts.DatabaseLayer;
 using MyContacts.Models;
+using MyContacts.Services;
 using MyContacts.ViewModels;
 using System;
 using System.Linq;
@@ -20,12 +21,10 @@ namespace MyContacts.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var contacts = await _context.Contacts.ToListAsync();
-
-            foreach (var item in contacts)
-            {
-                item.PhoneNumber = await _context.PhoneNumbers.FindAsync(item.PhoneNumberId);
-            }
+            var contacts = await _context.Contacts
+                .Where(c => c.Owner.Id == CurrentPhoneUserService.CurrentPhoneUser.Id)
+                .Include(p => p.PhoneNumber)
+                .ToListAsync();
 
             return View(contacts);
         }
@@ -56,7 +55,8 @@ namespace MyContacts.Controllers
             if (ModelState.IsValid && phoneNum != null && !IsPhoneNumUses(phoneNum.Id))
             {   
                 var contact = contactVM.Contact;
-                contact.PhoneNumberId = phoneNum.Id;
+                contact.PhoneNumber = phoneNum;
+                contact.Owner = await _context.PhoneNumbers.FindAsync(CurrentPhoneUserService.CurrentPhoneUser.Id);
 
                 await _context.Contacts.AddAsync(contact);
                 await _context.SaveChangesAsync();
@@ -69,7 +69,6 @@ namespace MyContacts.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var contact = await _context.Contacts.FindAsync(id);
-            var phoneNum = await _context.PhoneNumbers.FindAsync(contact.PhoneNumberId);
 
             if (contact == null)
             {
@@ -90,10 +89,10 @@ namespace MyContacts.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !IsPhoneNumUses(phone.Id))
             {
                 var contact = contactVM.Contact;
-                contact.PhoneNumberId = phone.Id;
+                contact.PhoneNumber = phone;
                 _context.Update(contact);
                 await _context.SaveChangesAsync();
 
@@ -129,7 +128,7 @@ namespace MyContacts.Controllers
 
         private bool IsPhoneNumUses(Guid id)
         {
-            return _context.Contacts.Where(c => c.PhoneNumberId == id).Any();
+            return _context.Contacts.Where(c => c.PhoneNumber.Id == id && c.Owner.Id == CurrentPhoneUserService.CurrentPhoneUser.Id).Any();
         }
     }
 }
